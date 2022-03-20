@@ -44,22 +44,26 @@ service:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8080"
 
+issuer:
+  enabled: true
+
 ingress:
   enabled: enabled
   className: "nginx"
   annotations: 
+    # certmanager.k8s.io/acme-challenge-type: http01
     cert-manager.io/issuer: letsencrypt-prod
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: gohttpserver.cloudnative-learn.com
+    - host: gohttpserver.ingress.cloudnative-learn.com
       paths:
         - path: /
           pathType: Prefix
   tls: 
     - secretName: httpserver-tls
       hosts:
-        - gohttpserver.cloudnative-learn.com
+        - gohttpserver.ingress.cloudnative-learn.com
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
@@ -94,7 +98,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-secrets:
-  crt: xxx
-  key: yyy
